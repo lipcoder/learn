@@ -27,6 +27,9 @@ func f2() {
 	// 不直接自动append，所以哪怕底层数组是有一个位置的，但是现在的切片长度是0,不能放东西
 	// len 表示当前能用的元素个数
 	// cap 表示底层数组还能装多少
+	// len 与 cap 可以观看f4更加清晰一点
+	// cap:从 slice 起点到其底层数组结尾之间的元素个数
+	// len:slice 的长度（len）是它当前包含的元素个数
 }
 
 func f3() {
@@ -51,8 +54,8 @@ func f4() {
 
 	e := arr[1:4]
 	fmt.Println("e:", e)
-	fmt.Println("len(s1):", len(e))
-	fmt.Println("cap(s1):", cap(e))
+	fmt.Println("len(e):", len(e))
+	fmt.Println("cap(e):", cap(e))
 }
 
 func main() {
@@ -72,29 +75,20 @@ func main() {
 	// 先创建数组，然后创建切片，更容易理解切片的本质
 	f4()
 
+	/*
+		可以将切片看成这个
+		type slice struct {
+	    ptr *T   // 指向底层数组
+	    len int  // 当前长度
+	    cap int  // 容量
+		}
+
+		arr := [5]int{1,2,3,4,5}
+	   	s := arr[1:4]
+		arr: [1][2][3][4][5]
+	            ↑
+	            s.ptr
+	    s.len = 3
+	    s.cap = 4
+	*/
 }
-
-// cap:
-// 从 slice 起点到其底层数组结尾之间的元素个数
-
-// len:
-// slice 的长度（len）是它当前包含的元素个数
-
-/*
-	可以将切片看成这个
-	type slice struct {
-    ptr *T   // 指向底层数组
-    len int  // 当前长度
-    cap int  // 容量
-	}
-
-   	arr := [5]int{1,2,3,4,5}
-   	s := arr[1:4]
-
-   	arr: [1][2][3][4][5]
-            ↑
-            s.ptr
-    s.len = 3
-    s.cap = 4
-
-*/
