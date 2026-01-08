@@ -5,6 +5,9 @@ import (
 	"math"
 )
 
+// numbers ...float64把所有传进来的 float64 参数，收集成一个 []float64 切片
+// 也就是说，在函数体内部：numbers 的类型是：[]float64
+
 func maximum (numbers ...float64) float64{
 	max := math.Inf(-1)
 	for _,number := range numbers{
