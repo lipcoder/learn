@@ -9,6 +9,7 @@ func mapdelete() {
 	ranks["bronze"] = 3
 	rank, ok = ranks["bronze"]
 	fmt.Printf("rank:%d,ok:%v\n", rank, ok)
+	fmt.Println("执行删除操作")
 	delete(ranks, "bronze")
 	rank, ok = ranks["bronze"]
 	fmt.Printf("rank:%d,ok:%v", rank, ok)
