@@ -15,8 +15,13 @@ func struct1() {
 		rate   float64
 		active bool
 	}
-	mystruct.name = "lip"
+	mystruct.name = "lip" //直接赋值
 	fmt.Println("name:", mystruct.name)
+	p := part{
+		count:       342,
+		description: "fasdfadsf",
+	} //字面量赋值
+	fmt.Println(p.count, p.description)
 }
 
 // 使用结构体并与structinfo传递返回结构体
@@ -52,15 +57,14 @@ func struct3use1(s *part) *part {
 	return s
 	// 但是实际上s还是指针，如果返回的话直接写s
 }
-func struct3use2(s *part){
+func struct3use2(s *part) {
 	s.count = 42
 	// 还是那个原因，所以直接s.count就行
 }
 
 func main() {
-	// struct1()
-	// struct2()
-
+	struct1()
+	struct2()
 	struct3()
 	// 类型(part)和变量(某个 part 实例)是不一样的，在3里面修改的这是s(part 类型)的count值，不是结构体的
 
