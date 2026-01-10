@@ -31,7 +31,7 @@ func struct2() {
 	fmt.Println("bc1", boltscopy.count, boltscopy.description)
 }
 func structinfo(p part) part {
-	p.count=12
+	p.count = 12
 	fmt.Println("p1:", p.count, p.description)
 	return p
 }
@@ -39,18 +39,27 @@ func structinfo(p part) part {
 // 使用指针修改struct
 func struct3() {
 	var s part
-	struct3use(&s)
+	sc := struct3use1(&s) //var sc *part
+	fmt.Println(sc.count) //直接sc.count的原因和下面这个use1里面提到原因的一样
 	fmt.Println(s.count)
+	struct3use2(sc) //也是那个原因,sc还是指针，所以输入时直接sc就行
+	fmt.Println(sc.count)
 }
-func struct3use(s *part) {
+func struct3use1(s *part) *part {
 	s.count = 32
 	// s 是 *subscriber，但你写 s.rate = ... 不需要 (*s).rate
-	// 因为 Go 对 指针访问字段 做了语法糖：s.rate 会自动解引用
+	// 因为 go 对 指针访问字段 做了语法糖：s.rate 会自动解引用
+	return s
+	// 但是实际上s还是指针，如果返回的话直接写s
+}
+func struct3use2(s *part){
+	s.count = 42
+	// 还是那个原因，所以直接s.count就行
 }
 
 func main() {
-	struct1()
-	struct2()
+	// struct1()
+	// struct2()
 
 	struct3()
 	// 类型(part)和变量(某个 part 实例)是不一样的，在3里面修改的这是s(part 类型)的count值，不是结构体的
