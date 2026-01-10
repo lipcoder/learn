@@ -2,13 +2,13 @@ package main
 
 import "fmt"
 
-// 定义一种结构体
+// 定义一‘种’结构体
 type part struct {
 	description string
 	count       int
 }
 
-// 定义一个结构体
+// 定义一’个‘结构体
 func struct1() {
 	var mystruct struct {
 		name   string
@@ -24,22 +24,19 @@ func struct2() {
 	var bolts part
 	bolts.description = "hex"
 	bolts.count = 24
-	fmt.Println("1", bolts.count, bolts.description)
+	fmt.Println("b1:", bolts.count, bolts.description)
+
 	boltscopy := structinfo(bolts)
-	fmt.Println("3", boltscopy.count, boltscopy.description)
+	fmt.Println("b2:", bolts.count, bolts.description)
+	fmt.Println("bc1", boltscopy.count, boltscopy.description)
 }
 func structinfo(p part) part {
-	fmt.Println("2", p.count, p.description)
+	p.count=12
+	fmt.Println("p1:", p.count, p.description)
 	return p
 }
 
-func struct21() {
-	var bolts part
-	bolts.description = "hex"
-	fmt.Println("1", bolts.count, bolts.description)
-}
-
-// 使用函数修改struct
+// 使用指针修改struct
 func struct3() {
 	var s part
 	struct3use(&s)
@@ -56,7 +53,6 @@ func main() {
 	struct2()
 
 	struct3()
-	struct21()
 	// 类型(part)和变量(某个 part 实例)是不一样的，在3里面修改的这是s(part 类型)的count值，不是结构体的
 
 }
