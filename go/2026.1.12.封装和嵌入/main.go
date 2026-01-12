@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-func main(){
+func main() {
 	data := calendar.Date{}
 	err := data.SetYear(23)
 	if err != nil {
