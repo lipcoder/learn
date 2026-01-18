@@ -63,11 +63,26 @@ func f4() {
 	fmt.Println("cap(e):", cap(e))
 }
 
+// ...展开切片将切片里面的数据一个一个传进去
+func f5() {
+
+	a := []int{1, 2, 3}
+	fmt.Println(&a[:1][0], a)
+
+	b := []int{3, 2, 1}
+	fmt.Println(&b[:1][0], b)
+
+	a = append(a, b...)
+	fmt.Println(&a[:1][0], a)
+
+}
+
 func main() {
 	f1()
 	f2()
 	f3()
 	f4()
+	f5()
 }
 
 // 可以将切片看成这个
