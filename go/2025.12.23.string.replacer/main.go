@@ -9,7 +9,7 @@ func main(){
 	broken :="G# r#cks"
 	replacer := strings.NewReplacer("#","c","s","f")
 	fixed := replacer.Replace(broken)
-	// replacer是值，Replace是方法
+	// replacer是某类型的变量，Replace是方法
 	fmt.Println(fixed)
 }
 
