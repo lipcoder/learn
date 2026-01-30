@@ -83,9 +83,8 @@ func status2use(grades map[string]float64, name string) {
 		fmt.Printf("%s is ok\n", name)
 	}
 }
-
 func status2() {
-	fmt.Println("map的传递")
+	fmt.Println("===map的传递")
 	grades := map[string]float64{"adcd": 28, "acdd": 83}
 	var name string
 	name = "addd"
@@ -94,6 +93,20 @@ func status2() {
 	status2use(grades, name)
 	name = "acdd"
 	status2use(grades, name)
+	// func f(m map[string]int) 传参时，是 按值复制 这个“句柄”
+	// 但两个句柄 都指向同一张底层哈希表
+	// 因此在函数里对 map 做 m[k]=v、delete(m,k)，改的是同一张底层表，调用方能看到变化
+	// 类比：像把“遥控器”复制了一份（按值传参），但两份遥控器控制的是同一台电视（同一底层 map）
+}
+
+func mapdelete() {
+	fmt.Println("===map删除一些键对值")
+	ranks := map[string]int{"adcd": 8}
+	rank, ok := ranks["adcd"]
+	fmt.Printf("rank:%d,ok:%v\n", rank, ok)
+	delete(ranks, "adcd")
+	rank, ok = ranks["adcd"]
+	fmt.Printf("rank:%d,ok:%v\n", rank, ok)
 }
 
 func main() {
@@ -103,4 +116,5 @@ func main() {
 	okstatus()
 	status1()
 	status2()
+	mapdelete()
 }
