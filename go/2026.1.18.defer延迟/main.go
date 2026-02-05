@@ -5,15 +5,18 @@ import (
 	"log"
 )
 
-func Socialize()error{
+func Socialize() error {
 	defer fmt.Println("goodbye")
 	fmt.Println("hello")
-	return fmt.Errorf("i don't want to talk")
+	if 2>1 {
+		return fmt.Errorf("i don't want to talk")
+	}
 	fmt.Println("nice ")
 	return nil
 }
 
-func main(){
+func main() {
+	defer fmt.Println("good")
 	err := Socialize()
 	if err != nil {
 		log.Fatal(err)
