@@ -18,12 +18,25 @@ func main() {
 
 	// 本质上就是把上面这个写法糖成下面这样，只不过是将这个控制输出范围交给了编译器
 	// range 输出右边这个数组/切片的索引和值
+	// 这里面判断终止的条件是len(notes)
+	/*
+		for _,v := range s{
+			...
+		}
+			
+		for i := 0; i < len(s); i++ {
+	    	v := s[i]
+	    	...
+		}
+
+	*/
+
 	for index, note := range notes {
 		fmt.Print(index, note, " ")
 	}
 	fmt.Println()
 
 	for _, note1 := range notes {
-		fmt.Print(note1," ")
+		fmt.Print(note1, " ")
 	}
 }
