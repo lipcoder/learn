@@ -1,3 +1,5 @@
+// panic发生 → 开始退栈 → 执行defer ←【recover 只能在这里生效】→ 继续退栈/或被拦住
+
 package main
 
 import (
