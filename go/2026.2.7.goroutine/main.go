@@ -12,14 +12,10 @@ func A(a string) int {
 	return 1
 }
 
-func useA(){
+func main(){
 	go A("a")
 	go A("b")
 	// a := go A() 这个是无效的，go语句不能使用返回值
 	// 因为在尝试使用它之前，不能保证返回值已经准备好
 	time.Sleep(time.Second)
-}
-
-func main() {
-	useA()
 }
