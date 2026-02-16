@@ -11,7 +11,7 @@ func viewHandler(write http.ResponseWriter, request *http.Request) {
 	_, err := write.Write(message)
 	if err != nil {
 		log.Fatal(err)
-	}
+	}	
 }
 
 func write(writer http.ResponseWriter, message string) {
