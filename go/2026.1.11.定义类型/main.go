@@ -19,7 +19,7 @@ func NewMyType() MyType {
 	return MyType(s)
 }
 
-// sayHi定义在MyType上
+// sayHi应该叫关联到MyType这个类型上面
 func (m MyType) sayHi() {
 	fmt.Println("hi", m)
 }
