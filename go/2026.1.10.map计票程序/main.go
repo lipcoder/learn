@@ -52,7 +52,7 @@ func Getstring(fileName string) ([]string, error) {
 }
 
 func status3() {
-	lines ,err:=Getstring("../../data/vote.txt")
+	lines ,err:=Getstring("../data/vote.txt")
 	if err != nil{
 		log.Fatal(err)
 	}
