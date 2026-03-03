@@ -14,7 +14,7 @@ func struct1() {
 	}
 	subscriber := magazine.Subscriber{Name: "Aman Singh"}
 	subscriber.HomeAddress = address
-	fmt.Println(subscriber.HomeAddress)
+	fmt.Println(subscriber.HomeAddress,subscriber.Name)
 }
 
 func struct2() {
