@@ -2,12 +2,14 @@ package mypkg
 
 import "fmt"
 
+// 接口定义了三个方法
 type Myinterface interface {
 	MethodWithoutParameters()
 	MethodWithParameters(float64)
 	MethodWithReturnValue() string
 }
 
+// MyType
 type MyType int
 
 func (m MyType) MethodWithoutParameters() {
@@ -27,17 +29,20 @@ func (m MyType) MethodNotInterface() {
 	fmt.Println("MyType extra method")
 }
 
+// OtherType
 type OtherType struct {
 	name string
+	age int
+	Age int
 }
-
+// name和age未大写首字母，所以需要一个方法去赋值，防止外部直接改
 func NewOtherType(name string) OtherType {
 	return OtherType{name: name}
 }
 
 // 实现接口的三个方法
 func (o OtherType) MethodWithoutParameters() {
-	fmt.Println("OtherType 111", o.name)
+	fmt.Println("OtherType 111", o.name,o.age,o.Age)
 }
 
 func (o OtherType) MethodWithParameters(f float64) {
