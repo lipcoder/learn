@@ -1,6 +1,5 @@
 package main
 
-
 import (
 	"fmt"
 )
@@ -40,10 +39,11 @@ func C() {
 	fmt.Println(a, b)
 }
 
-
-
-func main(){
+func main() {
 	A()
 	B()
 	C()
 }
+
+// make 与 new 的区别
+// slice/map/chan 这种“引用类型”有内部指针/结构，仅仅“给它一个零值”并不能让它可用，必须 make 初始化内部结构
