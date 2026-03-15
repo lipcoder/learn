@@ -11,28 +11,45 @@ func home(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 	// 上面这个是将非/的请求打回去
-	w.Write([]byte("hello from snippeetbox"))
+	w.Write([]byte("这是/，你可能写错了"))
 }
 
 func snippet(w http.ResponseWriter, r *http.Request) {
-	// if r.URL.Path == "/snippet/" {
-	// 	w.Write([]byte("Display all snippets..."))
-	// 	return
-	// }
-	// http.NotFound(w, r)
-	w.Write([]byte("hello12313123 from snippeetbox"))
+	if r.URL.Path == "/snippet/" {
+		w.Write([]byte("现在是/snippet/"))
+		return
+	}
+	http.NotFound(w, r)
 }
 
 func snippetView(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Dispaly a specific snippet..."))
 }
 
-func snippetView111(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Dispaly other specific snippet..."))
-}
-
 func snippetCreate(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Dispaly a specific snippet..."))
+	if r.Method != "POST" { //r.Method表示当前请求方法,比如GET,POST,PUT,DELETE
+		w.Header().Set("Allow", "POST")       //在调用w.WriteHeader()或w.Write()后再修改响应头映射就不会有改变了
+		w.WriteHeader(405)                    //给响应写状态码,响应只能有效写一次，
+		w.Write([]byte("Method Not Allowed")) //给响应写具体内容，要先写响应头再写body，否则头是默认的200
+		return
+	}
+	w.Write([]byte("creat a new snippet..."))
+}
+func snippetCreate1(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		w.Header().Set("Allow", "POST")
+		http.Error(w, "Method Not Allowed", 405)
+		return
+	}
+	w.Write([]byte("creat a new snippet..."))
+}
+func snippetCreate2(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" {
+		w.Header().Set("Allow", http.MethodPost)
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	w.Write([]byte("creat a new snippet..."))
 }
 
 func main() {
@@ -41,8 +58,9 @@ func main() {
 	mux.HandleFunc("/", home)
 	mux.HandleFunc("/snippet/", snippet)
 	mux.HandleFunc("/snippet/view", snippetView)
-	mux.HandleFunc("/snippet/view111", snippetView111)
-	mux.HandleFunc("/snippet/creat", snippetCreate)
+	mux.HandleFunc("/snippet/create", snippetCreate)
+	mux.HandleFunc("/snippet/create1", snippetCreate1)
+	mux.HandleFunc("/snippet/create2", snippetCreate2)
 
 	log.Print("serve on 4000")
 	err := http.ListenAndServe(":4000", mux)
