@@ -2,51 +2,48 @@ package main
 
 import "sync"
 
+// 1.
 var (
 	sema     = make(chan struct{}, 1)
-	balance1 int
+	balance0 int
 )
 
 func Deposit1(amount int) {
 	sema <- struct{}{} //传一个东西(当token了)，就是占用了
-	balance1 += amount
+	balance0 += amount
 	<-sema //把那个东西取出来(释放了)
 }
 
 func Balance1() int {
 	sema <- struct{}{} //上面这个routine如果在用的话，现在就被堵住了
-	b := balance1
+	b := balance0
 	<-sema
 	return b
 }
 
-func Balance2() int {
-	mu.Lock()
-	b := balance
-	mu.Unlock()
-	return b
-}
-
+// 2.
 var (
-	mu      sync.Mutex
-	balance int
+	mu1      sync.Mutex
+	balance1 int
 )
 
-func Deposit3(amount int) {
-	mu.Lock()
-	balance += amount
-	mu.Unlock()
+func Deposit2(amount int) {
+	mu1.Lock()
+	balance1 += amount
+	mu1.Unlock()
 }
 
-func Balance3() int {
-	mu.Lock()
-	defer mu.Unlock()
-	return balance
+// 读取存款的函数
+func Balance2() int {
+	mu1.Lock()
+	defer mu1.Unlock()
+	return balance1
 }
 
-func Withdraw3(amount int) bool {
-	Deposit3(-amount)
-	if Balance3() < 0 {
+// 进行存取操作的函数
+func Withdraw2(amount int) bool {
+	Deposit2(-amount)
+	if Balance2() < 0 {
 		return false
 	}
 	return true
@@ -73,11 +70,18 @@ func Withdraw3(amount int) bool {
 // 这三步应该在同一次持锁期间完成，不能让别人看到中间状态。
 */
 
-func Withdraw4(amount int) bool {
-	mu.Lock()
-	defer mu.Unlock()
+// 3.
+var (
+	mu2      sync.Mutex
+	mu3      sync.RWMutex
+	balance2 int
+)
+
+func Withdraw3(amount int) bool {
+	mu1.Lock()
+	defer mu1.Unlock()
 	deposit(-amount)
-	if balance < 0 {
+	if balance2 < 0 {
 		deposit(amount)
 		return false
 	}
@@ -85,7 +89,31 @@ func Withdraw4(amount int) bool {
 }
 
 // This function requires that the lock be held.
-func deposit(amount int) { balance += amount }
+func deposit(amount int) { balance2 += amount }
+
+/*
+RWMutex 的规则到底是什么
+
+第一条：多个读者可以同时拿读锁
+Balance() 这种只读函数可以拿读锁，而不是普通写锁。这样多个 Balance() 可以并发执行
+
+第二条：写者必须独占
+像 Deposit()、Withdraw() 这种修改共享变量的函数，仍然要用普通互斥锁的那套。
+写操作执行时，不允许别的读者或写者同时进入。
+
+第三条：读写不能同时发生
+RLock() 只有在没有写操作进行时才能成功共享；一旦有 goroutine 持有写锁，新的读者也得等。
+
+所以它的本质是：
+读-读可以并发，写-写不行，读-写也不行。
+*/
+
+// 读取存款的函数
+func Balance3() int {
+	mu3.RLock()
+	defer mu3.RUnlock()
+	return balance2
+}
 
 /*
 // 每次一个goroutine访问bank变量时（这里只有balance余额变量），它都会调用mutex的Lock方法来获取一个互斥锁
