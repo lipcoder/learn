@@ -29,3 +29,6 @@ func main() {
 	go squarer(squares, naturals)
 	printer(squares)
 }
+
+// ch <- 1      // 往 channel 里发 1
+// x := <-ch    // 从 channel 里取一个值
