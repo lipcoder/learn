@@ -44,3 +44,6 @@ func main() {
 	rw.Write([]byte("hello from io.ReadWriter\n\n"))
 
 }
+
+// 类型分支 / 类型断言：switch x := x.(type)，分别处理 string、int、bool 这些已知类型
+// 暂未完成，我思考这个该怎么添加
