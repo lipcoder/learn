@@ -10,6 +10,10 @@ func f(s []int, a int) []int {
 	return s
 }
 
+// 简单的一个充当append的函数
+// 但是append内部的逻辑要比这个appendint要复杂的多，
+// 要时刻注意当扩展后大于当前占地面积会重新创建底层数组，会改变源指针，
+// 所以我们会更新，比如这样runs:=append(runs,r)
 func appendint(x []int, y int) []int {
 	var z []int
 	zlen := len(x) + 1
@@ -26,9 +30,6 @@ func appendint(x []int, y int) []int {
 	z[len(x)] = y
 	return z
 }
-// 但是其实append内部的逻辑要比这个appendint要更加复杂的多，
-// 但是要时刻注意当扩展后大于当前占地面积会重新创建底层数组，会改变源指针，
-// 所以我们会更新，比如这样runs:=append(runs,r)
 
 func f1() {
 	s := make([]int, 0, 1) // slice := make ([]类型 , len ，cap)
@@ -88,7 +89,6 @@ func f4() {
 
 // ...展开切片将切片里面的数据一个一个传进去
 func f5() {
-
 	a := []int{1, 2, 3}
 	fmt.Println(&a[:1][0], a)
 
@@ -97,7 +97,6 @@ func f5() {
 
 	a = append(a, b...)
 	fmt.Println(&a[:1][0], a)
-
 }
 
 func f6() {
@@ -110,23 +109,24 @@ func f6() {
 	fmt.Println(g)
 }
 
-func f7 (numbers ...float64) float64{
+func f7(numbers ...float64) float64 {
 	max := math.Inf(-1)
-	for _,number := range numbers{
-		if number > max{
-			max =number
+	for _, number := range numbers {
+		if number > max {
+			max = number
 		}
 	}
 	return max
 }
 
 func main() {
-	// f1()
-	// f2()
-	// f3()
-	// f4()
+	f1()
+	f2()
+	f3()
+	f4()
 	f5()
-	// f6()
+	f6()
+	f7()
 }
 
 // 可以将切片看成这个
